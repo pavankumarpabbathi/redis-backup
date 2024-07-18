@@ -29,4 +29,4 @@ jobs:
 
       - name: Push image
         run: |
-          docker push ${{ env.AZURE_REGISTRY_NAME }}.azurecr.io/${{ env.AZURE_REGISTRY_NAME }}:latest
+          docker push ${{ env.AZURE_REGISTRY_NAME }}.azurecr.io/${{ env.AZURE_REPO_NAME }}:latest
