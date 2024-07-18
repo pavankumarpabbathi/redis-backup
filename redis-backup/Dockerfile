@@ -1,4 +1,4 @@
-FROM amazonlinux:latest
+FROM bitnami/azure-cli:latest
 
 LABEL maintainer="Accern DevOps <devops@accern.com>"
 
@@ -15,9 +15,8 @@ RUN yum -y update && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl
 
-##Commands for Installing AzCLI
-RUN curl -L https://aka.ms/InstallAzureCli | bash
+#RUN amazon-linux-extras install redis6 -y
 
-RUN az version
+RUN apt-get install redis-tools
 
-RUN amazon-linux-extras install redis6 -y
+RUN redis-cli -v
