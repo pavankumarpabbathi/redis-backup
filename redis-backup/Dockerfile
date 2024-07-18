@@ -12,8 +12,8 @@ RUN yum -y update && \
     yum install -y curl awscli tar && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
-    mv ./kubectl /usr/local/bin/kubectl
-    curl -L https://aka.ms/InstallAzureCli
+    mv ./kubectl /usr/local/bin/kubectl && \
+    curl -L https://aka.ms/InstallAzureCli | bash
 
 RUN az version
 
