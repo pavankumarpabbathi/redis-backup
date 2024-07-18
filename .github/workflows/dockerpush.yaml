@@ -1,0 +1,31 @@
+name: workflow to build and push images to private registries
+
+on:
+  workflow_dispatch:
+
+env:
+  AZURE_REGISTRY_NAME: accernredisbackup
+
+jobs: 
+  pushtoacr :
+    name: build and push image to acr
+    runs-on: ubuntu:latest 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to Azure using service principal named with 'az-acr-access-sp' 
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Login to Azure registry
+        run: az acr login --name ${{ env.AZURE_REGISTRY_NAME }}
+      
+      - name: Build Image  
+        run: |
+          docker build -t ${{ env.AZURE_REGISTRY_NAME }}.azurecr.io/${{ env.AZURE_REGISTRY_NAME }}:latest ./redis-backup
+
+      - name: Push image
+        run: |
+          docker push ${{ env.AZURE_REGISTRY_NAME }}.azurecr.io/${{ env.AZURE_REGISTRY_NAME }}:latest
