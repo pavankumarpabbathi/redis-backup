@@ -4,8 +4,9 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_REGISTRY_NAME: accernredisbackup
-
+  AZURE_REGISTRY_NAME: accerndevopsimages
+  AZURE_REPO_NAME: redisbackup
+  
 jobs: 
   pushtoacr :
     name: build and push image to acr
@@ -24,7 +25,7 @@ jobs:
       
       - name: Build Image  
         run: |
-          docker build -t ${{ env.AZURE_REGISTRY_NAME }}.azurecr.io/${{ env.AZURE_REGISTRY_NAME }}:latest ./redis-backup
+          docker build -t ${{ env.AZURE_REGISTRY_NAME }}.azurecr.io/${{ env.AZURE_REPO_NAME }}:latest ./redis-backup
 
       - name: Push image
         run: |
