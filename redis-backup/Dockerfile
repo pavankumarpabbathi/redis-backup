@@ -9,11 +9,11 @@ ENV VERSION=$VERSION
 ENV VERSION_READABLE=$VERSION_READABLE
 
 RUN yum -y update && \
-    yum install -y curl tar kubectl
-    
+    yum install -y curl tar && \
+    curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/linux/amd64/kubectl && \
     # curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
-    # chmod +x ./kubectl && \
-    # mv ./kubectl /usr/local/bin/kubectl
+    chmod +x ./kubectl && \
+    mv ./kubectl /usr/local/bin/kubectl
 
 ##Commands for Installing AzCLI
 RUN curl -L https://aka.ms/InstallAzureCli | bash
