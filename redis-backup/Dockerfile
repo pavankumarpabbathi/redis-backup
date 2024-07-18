@@ -1,4 +1,4 @@
-FROM amazonlinux:2
+FROM amazonlinux:latest
 
 LABEL maintainer="Accern DevOps <devops@accern.com>"
 
