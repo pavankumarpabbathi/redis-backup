@@ -1,5 +1,4 @@
-# Use Amazon Linux 2 as the base image
-FROM paulbouwer/k8s-cli:1.30.3
+FROM paulbouwer/azure-cli:2.53.1
 
 LABEL maintainer="Accern DevOps <devops@accern.com>"
 
