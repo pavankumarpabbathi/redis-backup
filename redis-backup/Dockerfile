@@ -11,20 +11,22 @@ RUN yum -y update && \
     rpm \
     tar
 
-# Import the Microsoft repository key
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
+# # Import the Microsoft repository key
+# RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
 
-# Create local azure-cli repository information
-RUN echo -e "[azure-cli]\n\
-name=Azure CLI\n\
-baseurl=https://packages.microsoft.com/yumrepos/azure-cli\n\
-enabled=1\n\
-gpgcheck=1\n\
-gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo
+# # Create local azure-cli repository information
+# RUN echo -e "[azure-cli]\n\
+# name=Azure CLI\n\
+# baseurl=https://packages.microsoft.com/yumrepos/azure-cli\n\
+# enabled=1\n\
+# gpgcheck=1\n\
+# gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo
 
-# Install Azure CLI
-ARG AZURE_CLI_VERSION=2.62.0
-RUN yum install -y azure-cli-${AZURE_CLI_VERSION}-1.el7
+# # Install Azure CLI
+# ARG AZURE_CLI_VERSION=2.62.0
+# RUN yum install -y azure-cli-${AZURE_CLI_VERSION}-1.el7
+
+RUN yes | curl -L https://aka.ms/InstallAzureCli | bash
 
 RUN amazon-linux-extras install redis6 -y
 
