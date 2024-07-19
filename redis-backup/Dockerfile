@@ -14,12 +14,5 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s 
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl
 
-# Verify installation
-RUN az --version
-
-RUN redis-cli -v 
-
-RUN kubectl version
-
 # Set the default command to bash
 CMD ["/bin/bash"]
