@@ -5,7 +5,7 @@ LABEL maintainer="Accern DevOps <devops@accern.com>"
 
 RUN  apt-get -y update     
 
-RUN  apt-get install redis-tools
+RUN  apt-get -y install redis-tools
 
 # Verify installation
 RUN az --version
