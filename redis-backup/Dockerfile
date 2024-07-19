@@ -1,22 +1,42 @@
-FROM bitnami/azure-cli:latest
+# Use Amazon Linux 2 as the base image
+FROM amazonlinux:2
 
 LABEL maintainer="Accern DevOps <devops@accern.com>"
 
-ARG VERSION
-ARG VERSION_READABLE
+# Update and install necessary dependencies
+RUN yum -y update && \
+    yum install -y \
+    curl \
+    sudo \
+    rpm \
+    tar
 
-ENV VERSION=$VERSION
-ENV VERSION_READABLE=$VERSION_READABLE
+# Import the Microsoft repository key
+RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
 
-RUN apt-get -y update && \
-    apt-get -y install tar && \
-    curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/linux/amd64/kubectl && \
-    # curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+# Create local azure-cli repository information
+RUN echo -e "[azure-cli]\n\
+name=Azure CLI\n\
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli\n\
+enabled=1\n\
+gpgcheck=1\n\
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo
+
+# Install Azure CLI
+RUN yum install -y azure-cli
+
+RUN amazon-linux-extras install redis6 -y
+
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl
 
-#RUN amazon-linux-extras install redis6 -y
+# Clean up
+RUN yum clean all && \
+    rm -rf /var/cache/yum
 
-RUN apt-get install redis-tools
+# Verify installation
+RUN az --version
 
-RUN redis-cli -v
+# Set the default command to bash
+CMD ["/bin/bash"]
