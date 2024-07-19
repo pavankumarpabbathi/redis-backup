@@ -3,8 +3,9 @@ FROM paulbouwer/k8s-cli:1.30.3
 
 LABEL maintainer="Accern DevOps <devops@accern.com>"
 
-RUN  apt-get -y update &&
-     apt-get install redis-tools
+RUN  apt-get -y update     
+
+RUN  apt-get install redis-tools
 
 # Verify installation
 RUN az --version
